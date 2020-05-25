@@ -1,0 +1,36 @@
+# This workflow will create a release on v-tag push
+
+name: Create release
+#descriptiom: "create a release on v-tag push"
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'test*'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - uses: actions/checkout@v2
+      - name: Build project
+        uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-8
+      - uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Changelog for ${{ steps.get_version.outputs.VERSION }} :
+            * First release
+          files: build/libs/Whitelister-${{ steps.get_version.outputs.VERSION }}.jar
+          gzip: folders

@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'me.magnum'
-version = '1.0'
+version = '1.0.0'
 description = 'Add player to whitelist on first join'
 sourceCompatibility = '1.8'
 archivesBaseName = 'Whitelister' // Put your artifactId here
