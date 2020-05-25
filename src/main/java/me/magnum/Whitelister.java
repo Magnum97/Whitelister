@@ -16,6 +16,7 @@
 package me.magnum;
 
 import lombok.Getter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,12 +35,20 @@ public class Whitelister extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable () {
 		plugin = this;
+		plugin.getServer().getPluginManager().registerEvents(this, this);
 	}
 
 	@EventHandler
 	public void onJoin (PlayerJoinEvent join) {
-		if (! join.getPlayer().hasPlayedBefore()) {
-			getServer().getWhitelistedPlayers().add(join.getPlayer());
+		OfflinePlayer player = join.getPlayer();
+		// Uncomment below to have player added any time they are not on the list
+		if (! plugin.getServer().getWhitelistedPlayers().contains(join.getPlayer())){
+			/* Uncomment below to only add to list on first join.
+			If removed from list they will not be re-added */
+//		if (! join.getPlayer().hasPlayedBefore()) {
+			player.setWhitelisted(true);
+			plugin.getServer().getConsoleSender().sendMessage("whitelist add "+join.getPlayer().getName());
+			plugin.getLogger().info("Added "+join.getPlayer().getName()+" to Whitelist");
 		}
 	}
 }
