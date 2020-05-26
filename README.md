@@ -4,7 +4,7 @@ I made this my special request from a [reddit thread](https://www.reddit.com/r/a
 
 ## What it does
 
-On first join for a player it will add them to the white list.
+When a player joins the whitelist is checked to see if they are on it, and added if they are not.
 *Why would you do that?* one might ask. 
 As it was explained to me, the white list is to enforce no **new** players joins for purposes of testing or during special events, but when we do not want players to be kicked when it is enabled.
 
